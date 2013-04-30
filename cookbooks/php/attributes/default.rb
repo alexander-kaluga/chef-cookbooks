@@ -22,7 +22,6 @@ lib_dir = kernel['machine'] =~ /x86_64/ ? 'lib64' : 'lib'
 
 default['php']['install_method'] = 'package'
 default['php']['directives'] = {}
-
 case node["platform_family"]
 when "rhel", "fedora"
   default['php']['conf_dir']      = '/etc'
@@ -31,22 +30,22 @@ when "rhel", "fedora"
   default['php']['fpm_group']     = 'nobody'
   default['php']['ext_dir']       = "/usr/#{lib_dir}/php/modules"
   if node['platform_version'].to_f < 6 then
-    default['php']['packages'] = ['php53', 'php53-devel', 'php53-cli', 'php-pear','php-intl']
+    default['php']['packages'] = ['php53', 'php53-devel', 'php53-cli', 'php-pear', 'php-intl', 'php-mysql', 'php-gd', 'php-curl']
   else
-    default['php']['packages'] = ['php', 'php-devel', 'php-cli', 'php-pear','php-intl']
+    default['php']['packages'] = ['php', 'php-devel', 'php-cli', 'php-pear', 'php-intl', 'php-mysql', 'php-gd', 'php-curl']
   end
 when "debian"
   default['php']['conf_dir']      = '/etc/php5/cli'
   default['php']['ext_conf_dir']  = '/etc/php5/conf.d'
-  default['php']['fpm_user']      = 'www-data'
-  default['php']['fpm_group']     = 'www-data'
-  default['php']['packages']      = ['php5-cgi', 'php5', 'php5-dev', 'php5-cli', 'php-pear', 'php5-intl']
+  default['php']['fpm_user']      = 'vagrant'
+  default['php']['fpm_group']     = 'vagrant'
+  default['php']['packages']      = ['php5-cgi', 'php5', 'php5-dev', 'php5-cli', 'php-pear', 'php5-intl', 'php5-mysql', 'php5-gd', 'php5-curl']
 else
   default['php']['conf_dir']      = '/etc/php5/cli'
   default['php']['ext_conf_dir']  = '/etc/php5/conf.d'
-  default['php']['fpm_user']      = 'www-data'
-  default['php']['fpm_group']     = 'www-data'
-  default['php']['packages']      = ['php5-cgi', 'php5', 'php5-dev', 'php5-cli', 'php-pear', 'php5-intl']
+  default['php']['fpm_user']      = 'vagrant'
+  default['php']['fpm_group']     = 'vagrant'
+  default['php']['packages']      = ['php5-cgi', 'php5', 'php5-dev', 'php5-cli', 'php-pear', 'php5-intl', 'php5-mysql','php5-gd', 'php5-curl']
 end
 
 default['php']['url'] = 'http://us.php.net/distributions'

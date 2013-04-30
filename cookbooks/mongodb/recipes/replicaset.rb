@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: mysql
-# Recipe:: default
+# Cookbook Name:: mongodb
+# Recipe:: replicatset
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, edelight GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +17,15 @@
 # limitations under the License.
 #
 
-include_recipe "mysql::client"
-include_recipe "mysql::server"
+include_recipe "mongodb"
+
+# if we are configuring a shard as a replicaset we do nothing in this recipe
+if !node.recipes.include?("mongodb::shard")
+  mongodb_instance "mongodb" do
+    mongodb_type "mongod"
+    port         node['mongodb']['port']
+    logpath      node['mongodb']['logpath']
+    dbpath       node['mongodb']['dbpath']
+    replicaset   node
+  end
+end

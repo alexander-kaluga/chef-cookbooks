@@ -1,8 +1,10 @@
 #
-# Cookbook Name:: mysql
-# Recipe:: default
+# Cookbook Name:: mongodb
+# Recipe:: configserver
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, edelight GmbH
+# Authors:
+#       Markus Korn <markus.korn@edelight.de>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +19,16 @@
 # limitations under the License.
 #
 
-include_recipe "mysql::client"
-include_recipe "mysql::server"
+include_recipe "mongodb"
+
+service "mongodb" do
+  supports :status => true, :restart => true
+  action [:disable, :stop]
+end
+
+mongodb_instance "configserver" do
+  mongodb_type "configserver"
+  port         node['mongodb']['port']
+  logpath      node['mongodb']['logpath']
+  dbpath       node['mongodb']['dbpath']
+end

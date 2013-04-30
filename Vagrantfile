@@ -115,14 +115,26 @@ Vagrant.configure("2") do |config|
     chef.cookbooks_path = "cookbooks"
     chef.add_recipe "build-essential"
     chef.add_recipe "apt"
+    chef.add_recipe "mongodb"
     chef.add_recipe "apache2"
     chef.add_recipe "mysql"
     chef.add_recipe "php"
     chef.add_recipe "composer"
     chef.add_recipe "nodejs"
     chef.add_recipe "lesscss"
-
+	
+	chef.json = {
+		"mysql" => {
+			"server_root_password" => "",
+			"server_repl_password" => "",
+			"server_debian_password" => ""
+		}
+	}
     config.vm.synced_folder "../www", "/home/vagrant/www"
     config.vm.network :forwarded_port, guest: 8080, host: 8080
+  end
+  
+  config.vm.provider "virtualbox" do |v|
+  	v.name = "CIP-Blowfish-VM"
   end
 end
