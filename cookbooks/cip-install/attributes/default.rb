@@ -3,4 +3,5 @@
 # Attribute:: default
 # Copyright 2013, Causecast
 #
-default['cpi-install']['symfony_version'] = "2.1.9"
+
+default['cpi-install']['packages'] = ['links', 'htop']

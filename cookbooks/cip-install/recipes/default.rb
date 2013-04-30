@@ -6,5 +6,8 @@
 #
 #
 
-include_recipe "apache2"
-
+node['cpi-install']['packages'].each do |pkg|
+  package pkg do
+    action :install
+  end
+end

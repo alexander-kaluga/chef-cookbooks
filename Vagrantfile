@@ -122,14 +122,16 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "composer"
     chef.add_recipe "nodejs"
     chef.add_recipe "lesscss"
+    chef.add_recipe "cip-install"
 	
-	chef.json = {
-		"mysql" => {
-			"server_root_password" => "",
-			"server_repl_password" => "",
-			"server_debian_password" => ""
-		}
+    chef.json = {
+	"mysql" => {
+		"server_root_password" => "",
+		"server_repl_password" => "",
+		"server_debian_password" => ""
 	}
+    }
+
     config.vm.synced_folder "../www", "/home/vagrant/www"
     config.vm.network :forwarded_port, guest: 8080, host: 8080
   end
