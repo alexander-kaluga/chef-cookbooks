@@ -3,6 +3,10 @@
   ServerAlias <% @params[:server_aliases].each do |a| %><%= a %> <% end %>
   DocumentRoot <%= @params[:docroot] %>
   SetEnv HOME /home/vagrant
+  SetEnv APPLICATION_ENV "local"
+  RewriteEngine On
+  DirectoryIndex app_local.php
+
   <Directory <%= @params[:docroot] %>>
     Options <%= [@params[:directory_options] || "FollowSymLinks" ].flatten.join " " %>
     AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
@@ -14,6 +18,12 @@
     Options FollowSymLinks
     AllowOverride None
   </Directory>
+
+  <IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ /app_local.php [QSA,L]
+  </IfModule>
 
   LogLevel info
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
